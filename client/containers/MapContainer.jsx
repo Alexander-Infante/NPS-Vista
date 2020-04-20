@@ -14,6 +14,7 @@ const mapStateToProps = state => ({
   parksList: state.park.parksList,
   toggle: state.park.toggle,
   showPark: state.park.showPark,
+  showingInfoWindow: state.park.showingInfoWindow,
 })
 
 
@@ -21,6 +22,8 @@ const mapDispatchToProps = dispatch => ({
   toggle: () => dispatch(actions.toggle()),
   fetchMarkers: () => dispatch(actions.fetchMarkers()),
   fetchParkInfo: (parkCode) => dispatch(actions.fetchParkInfo(parkCode)),
+  mouseOver: () => dispatch(actions.mouseOver()),
+  mouseExit: () => dispatch(actions.mouseExit()),
 })
 
 class MapContainer extends Component {
@@ -40,6 +43,7 @@ class MapContainer extends Component {
     //loop through state.parksList to get all relevant info for marker component
 
     for (let i = 0; i < this.props.parksList.length; i++) {
+      // Displaying All Markers on Map 
       markersArray.push(<Marker
         // Key so React doesn't complain
         key={this.props.parksList[i].code}
@@ -57,9 +61,25 @@ class MapContainer extends Component {
           lng: this.props.parksList[i].position.long,
         }
         }
-      // give onClick to Marker
-      // onClick triggers an action that renders park information in park component
-      />)
+        onMouseOver={() => {
+          // console.log("MOUSE OVER MapContainer.jsx")
+          this.props.mouseOver();
+        }}
+        onMouseout={() => {
+          console.log("MOUSE OUT MapContainer.jsx")
+          this.props.mouseExit();
+        }}
+      >
+        {
+          this.props.showingInfoWindow ?
+            <InfoWindow name={this.props.parksList[i].name} visible={true}>
+              <h4>{this.props.name}</h4>
+            </InfoWindow>
+            : <InfoWindow>
+              <h4></h4>
+            </InfoWindow>
+        }
+      </Marker >)
     }
 
     //push each component into above array

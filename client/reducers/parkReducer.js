@@ -12,7 +12,9 @@ const initialState = {
   fullName: '',
   description: '',
   weather: '',
-  images: ''
+  images: '',
+  // Mouse Over for Info Window
+  showingInfoWindow: false,
 }
 
 const parkReducer = (state = initialState, action) => {
@@ -26,6 +28,7 @@ const parkReducer = (state = initialState, action) => {
         toggle
       };
 
+    // Display Markers in Map ---------------------------------
     case types.MARKER:
 
       const markerData = action.payload;
@@ -50,7 +53,8 @@ const parkReducer = (state = initialState, action) => {
         parksList
       }
 
-    // specificPark render reducer
+    // OnClick for Park Info Below -------------------------
+
     // get data from fetch request to manipulate our state
     // also toggle?
     case types.PARKINFO:
@@ -69,7 +73,24 @@ const parkReducer = (state = initialState, action) => {
         images,
         showPark
       }
+    // Mouse Events ---------------------------------------
+    case types.MOUSE_OVER:
+      console.log('you have found the mouseOver reducer')
 
+      return {
+        ...state,
+        showingInfoWindow: true,
+      }
+
+    case types.MOUSE_EXIT:
+      console.log('you have found the mouseExit reducer')
+
+      return {
+        ...state,
+        showingInfoWindow: false,
+      }
+
+    // Default Case -----------------------------------------
     default:
       return state
   }

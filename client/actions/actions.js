@@ -42,3 +42,16 @@ export const fetchParkInfo = (parkCode) => {
     }
 }
 // ---------------------------------------------------------------
+
+
+// https://stackoverflow.com/questions/41275305/add-tooltip-on-markers-for-google-maps-react
+// MOUSE_OVER to display Park Name -------------------------------
+export const mouseOver = () => ({
+    type: types.MOUSE_OVER
+})
+
+
+// MOUSE_EXIT to STOP displaying Park Name ------------------------
+export const mouseExit = () => ({
+    type: types.MOUSE_EXIT
+})
